@@ -20,6 +20,16 @@
           job_args:
             limit: "{{ event.meta.hosts }}"
 
+    - name: Filesystem is over 80% used
+      condition: event.alert.labels.alertname == "Filesystem usage high on*" and event.alert.status == "firing"
+      action:
+        run_job_template:
+          name: Demo Job Template
+          organization: Default
+          job_args:
+            limit: "{{ event.meta.hosts }}"
+    
+
     - name: SELinux was enabled
       condition: event.alert.labels.alertname == "selinux disabled" and event.alert.status == "resolved"
       action:
