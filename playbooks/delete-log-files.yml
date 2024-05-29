@@ -1,14 +1,11 @@
 ---
-- name: Eliminar archivos de logs en /var/log/httpd
+- name: Comprimir y mover archivos de logs en /var/log/httpd
   hosts: all
   tasks:
-    - name: Eliminar archivos de logs
-      become: yes
-      shell: rm -f /var/log/httpd/*.log
-    - name: Seleccionar archivos con números en el nombre
-      find:
-        paths: /var/log/httpd/
-        patterns: '*[0-9]*'
-      register: archivos_con_numeros
-    - debug:
-        var: archivos_con_numeros.files
+    - name: Comprimir archivos de logs
+      archive:
+        path: /var/log/httpd/
+        dest: /tmp/logs_comprimidos.tar.gz
+        format: gz
+        exclude_paths: "*_log"
+
