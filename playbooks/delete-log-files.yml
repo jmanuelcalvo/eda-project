@@ -1,0 +1,14 @@
+---
+- name: Eliminar archivos de logs en /var/log/httpd
+  hosts: all
+  tasks:
+    - name: Eliminar archivos de logs
+      become: yes
+      shell: rm -f /var/log/httpd/*.log
+    - name: Seleccionar archivos con números en el nombre
+      find:
+        paths: /var/log/httpd/
+        patterns: '*[0-9]*'
+      register: archivos_con_numeros
+    - debug:
+        var: archivos_con_numeros.files
