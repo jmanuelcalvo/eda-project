@@ -21,7 +21,7 @@
             limit: "{{ event.meta.hosts }}"
 
     - name: Filesystem is over 80% used
-      condition: event.alert.labels.alertname == "Filesystem usage high on*" and event.alert.status == "firing"
+      condition: event.alert.labels.alertname == "Filesystem usage high" and event.alert.status == "firing"
       action:
         run_job_template:
           name: Demo Job Template
