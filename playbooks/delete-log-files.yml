@@ -3,9 +3,20 @@
   hosts: all
   tasks:
     - name: Comprimir archivos de logs
-      archive:
-        path: /var/log/httpd/
-        dest: /tmp/logs_comprimidos.tar.gz
-        format: gz
-        exclude_path: "*.log"
+      ansible.builtin.debug:
+        msg: El playbook se ejecuto correctamente
 
+    - name: Buscar archivos para eliminarlos 
+      find:
+        paths: /var/log/httpd/
+        patterns: "*.log"
+        use_regex: true
+        file_type: directory
+      register: folders_to_delete
+
+    - name: Mostrar los archivos a Borrar
+      debug:
+        var: folders_to_delete
+
+    - name: Elimiar archivos
+      shell: rm -rf /var/log/httpd/*.log
